@@ -8,6 +8,8 @@ var url = require('url');
 
 app.use(logfmt.requestLogger());
 
+app.use(express.bodyParser());
+
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
     console.log("Listening on " + port);
@@ -29,7 +31,8 @@ app.get('/webhook_url', function(req, res) {
   var venmo_challenge = query.venmo_challenge;
   res.send(venmo_challenge);
 });
+
 app.post('/webhook_url', function(req, res) {
-  console.log('req', req);
+  console.log('webhook request', req.body);
   res.json({});
 });
