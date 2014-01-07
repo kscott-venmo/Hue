@@ -1,6 +1,10 @@
 // web.js
 var express = require("express");
 var logfmt = require("logfmt");
+var $ = require('lib/jquery-2.0.3.min.js');
+var color = require('lib/color.js');
+var q = require('lib/q.js');
+var hue = require('lib/hue.js');
 var app = express();
 
 app.use(logfmt.requestLogger());
