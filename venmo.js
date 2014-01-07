@@ -30,6 +30,6 @@ app.get('/webhook_url', function(req, res) {
   res.send(venmo_challenge);
 });
 app.post('/webhook_url', function(req, res) {
-  console.log(req.body);
+  console.log('req', req);
   res.json({});
 });
