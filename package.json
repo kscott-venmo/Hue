@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "express": "*",
-    "q": "~1.0.0"
+    "q": "~1.0.0",
     "request": "*",
   }
 }
