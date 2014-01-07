@@ -9,8 +9,8 @@
     "node": "0.10.x"
   },
   "dependencies": {
-    "express": "*",
     "q": "~1.0.0",
-    "request": "*",
+    "express": "~3.4.7",
+    "request": "~2.30.0"
   }
 }
