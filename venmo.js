@@ -17,7 +17,6 @@ app.listen(port, function() {
 
 
 var light = new hue.Hue.Light(3);
-//light.set({ color: 'rgb(255,0,0)' });
 
 /*
 app.get('/', function(req, res) {
@@ -32,7 +31,35 @@ app.get('/webhook_url', function(req, res) {
   res.send(venmo_challenge);
 });
 
+
+/*
+ * payment
+ *  date_created
+ *  type
+ *  data
+ *    status: settled | pending | failed
+ *    id
+ */
 app.post('/webhook_url', function(req, res) {
   console.log('webhook request', req.body);
   res.json({});
+  var payment = req.body;
+  var color;
+  switch(payment.data.status) {
+    case 'failed' :
+      color = 'rgb(255,0,0)';
+      break;
+    case 'pending' :
+      color = 'rgb(255,0,255)';
+      break;
+    case 'settled' :
+      color = 'rgb(0,255,0)';
+      break;
+  }
+  if ( color ) {
+    light.set({ color: color });
+    setTimeout(function(){
+      light.set({ color: 'rgb(255,0,0)' });
+    },1000);
+  }
 });
