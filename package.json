@@ -1,7 +1,14 @@
 {
-  "name": "hue",
-  "version": "0.0.1",
-  "description": "",
+  "name": "venmo",
+  "version": "0.1.0",
+  "description": "venmo",
   "main": "venmo.js",
-  "author": "Kevin Scott / Delano McFarlane",
+  "author": "Venmo",
+  "license": "BSD-2-Clause",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "dependencies": {
+    "q": "~1.0.0"
+  }
 }
