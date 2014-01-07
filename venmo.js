@@ -29,3 +29,7 @@ app.get('/webhook_url', function(req, res) {
   var venmo_challenge = query.venmo_challenge;
   res.send(venmo_challenge);
 });
+app.post('/webhook_url', function(req, res) {
+  console.log(req.body);
+  res.json({});
+});
