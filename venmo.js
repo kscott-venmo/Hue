@@ -5,6 +5,8 @@ var request = require('request');
 var hue = require('./lib/hue.js');
 var app = express();
 var url = require('url');
+var com = require('./commands');
+var config = require('./config');
 
 app.use(logfmt.requestLogger());
 
@@ -16,14 +18,52 @@ app.listen(port, function() {
 });
 
 
+
+
 var light = new hue.Hue.Light(3);
 
-/*
-app.get('/', function(req, res) {
-    res.send('Hello World!');
-});
-*/
 
+var monitorRecentPayments = function(user_id) {
+
+    var frequency = 5000;
+    var timestamp = 0;
+    var getRecentPayments = function(time) {
+
+        var start_time = (new Date()).getTime();
+        var script = "./get_recent_payments.sh "+timestamp+" "+user_id;
+
+        // if an error, we fail
+        com.runScript(script).then(function(result){
+          timestamp = Math.round(result);
+          if ( result ) {
+            processTimestamp(timestamp);
+          }
+          var elapsed_time = (new Date()).getTime() - start_time;
+          setTimeout(function(){
+            getRecentPayments(script, time);
+          }, time - elapsed_time);
+        }).fail(function(err){
+            console.log('There was an error',err);
+            console.log('script',script);
+        });
+    };
+
+    var processTimestamp = function(timestamp) {
+      var date = new Date(timestamp*1000);
+      console.log('last payment made on',date);
+      if (timestamp >= (new Date()).getTime() - frequency) {
+        // if payment is within frequency, flash green
+        console.log('flash!');
+      }
+    };
+
+    getRecentPayments(frequency);
+};
+monitorRecentPayments(config.kevin);
+
+
+
+/*
 app.get('/webhook_url', function(req, res) {
   var parts = url.parse(req.url, true);
   var query = parts.query;
@@ -32,6 +72,7 @@ app.get('/webhook_url', function(req, res) {
 });
 
 
+*/
 /*
  * payment
  *  date_created
@@ -40,6 +81,7 @@ app.get('/webhook_url', function(req, res) {
  *    status: settled | pending | failed
  *    id
  */
+/*
 app.post('/webhook_url', function(req, res) {
   console.log('webhook request', req.body);
   res.json({});
@@ -63,3 +105,5 @@ app.post('/webhook_url', function(req, res) {
     },1000);
   }
 });
+
+*/
